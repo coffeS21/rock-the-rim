@@ -32,28 +32,28 @@ export default function Auth(){
     }
 
     return(
-        <div>
-            //header component will go here
+        <div id="mainContainer">
+            
             {!authToggle ?
-            <>
+            <div class="formContainer">
                 <AuthForm 
                 handleChange={handleChange}
                 handleSubmit={handleSignup}
                 formInputs={formInputs}
                 btnText="Sign up"
                 />
-                <button onClick={() => setAuthToggle(prev => !prev)}>no account?</button>
-            </>
+                <p onClick={() => setAuthToggle(prev => !prev)}>no account?</p>
+            </div>
             :
-            <>
+            <div class="formContainer">
                 <AuthForm 
                 handleChange={handleChange}
                 handleSubmit={handleLogin}
                 formInputs={formInputs}
                 btnText="Login"
             />
-            <button onClick={() => setAuthToggle(prev => !prev)}>you got an account?</button>
-            </>
+            <p onClick={() => setAuthToggle(prev => !prev)}>you got an account?</p>
+            </div>
             }
         </div>
     )

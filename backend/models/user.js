@@ -33,8 +33,15 @@ userSchema.pre("save", function(next){
 //method to check  encrypted password on login
 userSchema.methods.checkPass = function(passAttempt, cb){
   bcrypt.compare(passAttempt, this.password, (err, isMatch) => {
-    if(err) cb(err)
+    if(err) return cb(err)
     return callback(null, isMatch)
   })
+}
+
+//method to remove the users password so its not send to the front end
+userSchema.methods.removePassword = function(){
+  const user = this.toObject()
+  delete user.password
+  return user
 }
 module.exports = mongoose.model("User", userSchema)

@@ -1,11 +1,11 @@
 import React from "react"
-
+"../../styles/authForm.csss"
 export default function AuthForm(props){
     
     const {
         handleChange,
         handleSubmit,
-        buttonText,
+        btnText,
         formInputs: {
             username,
             password
@@ -13,7 +13,7 @@ export default function AuthForm(props){
     } =props
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form id="formContainer" onSubmit={handleSubmit}>
             <input
             type="text"
             value={username}
@@ -26,7 +26,7 @@ export default function AuthForm(props){
             name="password"
             onChange={handleChange}
             palceholder="password"/>
-            <button>{buttonText}</button>
+            <button>{btnText}</button>
         </form>
     )
 }

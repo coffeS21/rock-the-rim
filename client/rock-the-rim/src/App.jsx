@@ -5,12 +5,13 @@ import Auth from './components/Auth.jsx'
 import Profile from './components/Profile.jsx'
 import Public from './components/Public.jsx'
 import { UserContext } from './context/UserProvider.jsx'
+import "../styles/authForm.css"
 
 export default function App(){
   const { token, logout } = useContext(UserContext)
   return (
-    <div>
-      <Navbar logout={logout} />
+    <div id='test'>
+        <Navbar logout={logout} />  
       <Routes>
         <Route 
           path="/" 

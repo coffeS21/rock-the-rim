@@ -1,4 +1,4 @@
-const express = require("express")
+ const express = require("express")
 const authRouter = express.Router()
 const User = require("../models/user.js")
 const jwt = require("jsonwebtoken")
@@ -20,8 +20,8 @@ authRouter.post("/signup", (req, res, next)=> {
                 res.status(500)
                 return next(err)
             }
-            const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
-            return res.status(201).send({token, user: savedUser})
+            const token = jwt.sign(savedUser.removePassword(), process.env.SECRET)
+            return res.status(201).send({token, user: savedUser.removePassword()})
         })
     })
 })
@@ -40,9 +40,18 @@ authRouter.post("/login", (req,res, next)=>{
         //     res.status(403)
         //     return next(new Error("username or passwor are incorrect"))
         // }
-        
-        const token = jwt.sign(user.toObject(), process.env.SECRET)
-            return res.status(200).send({token, user})
+        user.checkPass(req.body.password, (err, ismatch) => {
+            if(err){
+                res.status(403)
+                return next(new Error("username or password are incorrect"))
+            }
+            if(!isMatch){
+                res.status(403)
+                return next(new Error("username or passord are incorrect"))
+            }
+            const token = jwt.sign(user.removePassword(), process.env.SECRET)
+                return res.status(200).send({token, user: user.removePassword()})
+        })
     })
 })
 
