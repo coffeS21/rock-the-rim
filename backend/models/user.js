@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const User = mongoose.Schema
+const bcrypt = require('bcrypt')
 
 const userSchema = new User({
     username: {
@@ -17,4 +18,23 @@ const userSchema = new User({
       default: Date.now
     }
 })
+
+//pre-save hook to make the users password hashed(bcrypt)
+userSchema.pre("save", function(next){
+  const user = this
+  if(!user.isModified("password")) return next()
+  bcrypt.hash(user.password, 10, (err, hash)=>{
+    if(err) return next(err)
+    user.password = hash
+    next()
+  })
+})
+
+//method to check  encrypted password on login
+userSchema.methods.checkPass = function(passAttempt, cb){
+  bcrypt.compare(passAttempt, this.password, (err, isMatch) => {
+    if(err) cb(err)
+    return callback(null, isMatch)
+  })
+}
 module.exports = mongoose.model("User", userSchema)
