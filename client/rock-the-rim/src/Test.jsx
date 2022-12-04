@@ -1,12 +1,12 @@
-import React, {useContext} from "react"
-import { UserContext } from "./context/UserProvider"
+import React from "react"
+import Auth from "./components/Auth.jsx"
 
 
 export default function(){
     const nameData = useContext(UserContext)
     return(
         <>
-        <h1>{nameData.name}</h1>
+        <Auth/>
         </>
     )
 }

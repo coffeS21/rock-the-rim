@@ -1,7 +1,9 @@
 import React, {useState} from "react"
-
+import "../../styles/auth.css"
+import PageHeader from './PageHeader.jsx'
 const takeInputs = {
-    title: ""
+    takeTitle: "",
+    takeBody: ""
 }
  export default function TakeForm(props){
     const [formInputs, setFormInputs] = useState(takeInputs)
@@ -21,17 +23,44 @@ const takeInputs = {
         setInputs(takeInputs)
       }
 
-      const { title } = formInputs
+      const { takeTitle, takeBody } = formInputs
       
       return(
-        <form>
-          <input 
-        type="text" 
-        name="title" 
-        value={title} 
-        onChange={handleChange} 
-        placeholder="Title"/>
-        <button>Add Todo</button>
+        <form id="takeFormContainer" onSubmit={handleSubmit}>
+            
+            <div className="takePageHeader">
+              <PageHeader pageHeader="create a take"/>
+            </div>
+
+            <div className="takeInputContainer">
+              <input 
+                type="text" 
+                name="takeTitle" 
+                value={takeTitle} 
+                onChange={handleChange} 
+                placeholder="title"/>
+            </div>
+
+        
+                        
+            <div className="takeInputContainer">
+              <input 
+                type="text" 
+                name="takeTitle" 
+                value={takeTitle} 
+                onChange={handleChange} 
+                placeholder="take"/>
+            </div>
+            
+                <div id="takeFormButtonContainer">
+                  <button id="takeFormButton" className="button-74" role="button">create new take</button>
+                </div>
+
+
+          
+
+          
+
         </form>
       )
  }

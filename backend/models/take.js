@@ -3,15 +3,14 @@ const Take = mongoose.Schema
 //this schema is an object and this object will be the blue print of each take created
 const takeSchema = new Take({
 
-    title: {
+    taketTitle: {
         type: String,
         required: true, 
-        uppercase: true,
-        required: true
+        
     },
-    discription: {
+    takeBody: {
         type: String,
-        lowercase: true
+        
     },
     upVote: {
         type: Number,

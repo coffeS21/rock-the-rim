@@ -1,7 +1,8 @@
 import React, {useState, useContext} from "react"
 import AuthForm from "./AuthForm.jsx"
 import { UserContext } from "../context/UserProvider.jsx"
-
+import Intro from "./Intro.jsx"
+import "../../styles/auth.css"
 const authInputs = {
     username: "",
     password: ""
@@ -11,7 +12,7 @@ export default function Auth(){
     const [formInputs, setFormInputs] = useState(authInputs)
     const [authToggle, setAuthToggle] = useState(false)
 
-    const {signup, login} = useContext(UserContext)
+    const {signup, login, errMsg, restAuthErr} = useContext(UserContext)
 
     function handleChange (e){
         const {name, value} = e.target
@@ -31,29 +32,38 @@ export default function Auth(){
         login(formInputs)
     }
 
+    function toggleForm(){
+        setAuthToggle(prev => !prev)
+        resetAuthErr()
+      }
+
     return(
-        <div id="mainContainer">
-            
+        <div id="authContainer">
+            <Intro/>
             {!authToggle ?
-            <div class="formContainer">
+            <>
                 <AuthForm 
                 handleChange={handleChange}
                 handleSubmit={handleSignup}
                 formInputs={formInputs}
+                errMsg={errMsg}
                 btnText="Sign up"
                 />
-                <p onClick={() => setAuthToggle(prev => !prev)}>no account?</p>
-            </div>
+                
+                <p onClick={toggleForm}>Already a member?</p>
+            </>
             :
-            <div class="formContainer">
+            <>
                 <AuthForm 
                 handleChange={handleChange}
                 handleSubmit={handleLogin}
                 formInputs={formInputs}
+                errMsg={errMsg}
                 btnText="Login"
             />
-            <p onClick={() => setAuthToggle(prev => !prev)}>you got an account?</p>
-            </div>
+
+            <p onClick={toggleForm}>Not a member?</p>
+            </>
             }
         </div>
     )

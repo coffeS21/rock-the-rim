@@ -1,11 +1,14 @@
 import React from 'react'
-import Take from './Take.jsx'
+import "../../styles/auth.css"
+import PageHeader from './PageHeader.jsx'
+// import Take from './Take.jsx'
 
-export default function TakeList(props){
-  const {takes} = props
+export default function TakeList(){
   return (
-    <div >
-      {takes.map(take => <Take {...take} key={take._id}/>) }
+    <div id="takeListContainer">
+      <div className="takePageHeader">
+        <PageHeader pageHeader="old takes"/>
+      </div>
     </div>
   )
 }

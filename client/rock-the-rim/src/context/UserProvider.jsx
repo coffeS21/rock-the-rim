@@ -13,16 +13,20 @@ userAxios.interceptors.request.use(config => {
     return config
 })
 
+
+ 
+/************ */
 export default function UserProvider(props){
     const blankUser = {
         user: JSON.parse(localStorage.getItem("user")) || {}, 
         token: localStorage.getItem("token") || "", 
-        takes: []
+        takes: [],
+        errMsg: ""
     }
     const [blankUserState, setBlankUserState] = useState(blankUser)
 
-    function signup(userInfo){
-        axios.post("/auth/signup", userInfo)
+    function signup(credentials){
+        axios.post("/auth/signup", credentials)
         .then(res => {
             const {user, token} = res.data
             localStorage.setItem("token", token)
@@ -33,10 +37,10 @@ export default function UserProvider(props){
                 token
             }))
         })
-        .catch(err => console.log(err.response.data.errMsg))
+        .catch(err => handleAuthErr(err.response.data.errMsg))
     }
-    function login(userInfo){
-        axios.post("/auth/login", userInfo)
+    function login(credentials){
+        axios.post("/auth/login", credentials)
         .then(res => {
             const {user, token} = res.data
             localStorage.setItem("token", token)
@@ -48,7 +52,7 @@ export default function UserProvider(props){
                 token
             }))
         })
-        .catch(err => console.log(err.response.dataa.errMsg))
+        .catch(err => handleAuthErr(err.response.data.errMsg))
     }
     function logout(){
         localStorage.removeItem("token")
@@ -56,16 +60,16 @@ export default function UserProvider(props){
         setBlankUserState({
             user: {},
             token: "",
-            todos: []
+            takes: []
         })
     }
 
-    function getMyTakes(newTake){
+    function getMyTakes( ){
         userAxios.get("/api/takes/user")
         .then(res => {
             setBlankUserState(prevState => ({
                 ...prevState,
-                tajes: res.data
+                takes: res.data
             }))
         })
         .catch(err => console.log(err.response.data.errMsg))
@@ -82,17 +86,50 @@ export default function UserProvider(props){
         .catch(err => console.log(err.response.data.errMsg))
     }
 
+    function handleAuthErr(errMsg){
+        setBlankUserState(prevState => ({
+            ...prevState,
+            errMsg
+        }))
+    }
+
+    function restAuthErr(){
+        setBlankUserState(prevState => ({
+            ...prevState,
+            errMsg: ""
+        }))
+    }
+
     return(
         <UserContext.Provider
             value ={{
                 ...blankUserState,
                 addTake,
-                getMyTakes,
                 signup,
-                login
-            }}
-        >
+                login,
+                logout,
+                restAuthErr
+            }}>
             {props.children}
         </UserContext.Provider>
     )
 }
+
+/**
+ * in take form page on the takeform component pass in a prop for the 
+ * function that you created in usecontext call addTake
+ * 
+ * then in the takeForm use props
+ * so that you can use the add takes function in the takeForm handleSubmit
+ * 
+ * in the takeForm the new takes will be the values of the take inputs
+ * 
+ *  in the take page bring in the takelist
+ * using context pass takelist a prop called takes
+ * this is the array of takes saved in state from context
+ * 
+ * now in takelist recive the takes as a prop
+ * 
+ * use the take prop array and map it
+ * when you map it you will return the take component
+ */
