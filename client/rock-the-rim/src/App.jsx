@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
-import TakePage from './components/TakePage.jsx'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Header from "./components/Header.jsx"
+import Auth from "./components/Auth.jsx"
 import Navbar from './components/Navbar.jsx'
 import Profile from './components/Profile.jsx'
 import Public from './components/Public.jsx'
@@ -12,25 +12,14 @@ import "../styles/auth.css"
 export default function App(){
   const { token, logout, user } = useContext(UserContext)
   return (
-    <div id="headerContainer">
-      <Header header="ROCK THE RIM"/>
-      <Navbar logout={ logout }/> 
-      <div id="appContainer">
-      
+    <div className="app">
+      { token && <Navbar/> }
       <Routes>
         <Route 
           path="/" 
-          element={token ? <Navigate to="/profile"/> : <TakePage/>}
+          element={token ? <Navigate to="/profile"/> : <Auth />}
         />
         <Route 
-          path="/profile"
-          element={<Profile />}
-        />
-        <Route 
-          path="/public"
-          element={<Public />}
-        />
-        {/* <Route 
           path="/profile" 
           element={
             <ProtectedRoute token={token} redirectTo="/">
@@ -45,10 +34,8 @@ export default function App(){
               <Public/>
             </ProtectedRoute>
           }
-        /> */}
-      </Routes> 
-      </div>
-      
+        />
+      </Routes>
     </div>
   )
 }

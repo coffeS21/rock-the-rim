@@ -1,30 +1,29 @@
 const mongoose = require("mongoose")
-const Take = mongoose.Schema
+const Schema = mongoose.Schema
 //this schema is an object and this object will be the blue print of each take created
-const takeSchema = new Take({
+const takeSchema = new Schema({
 
-    taketTitle: {
+    takeTitle: {
         type: String,
-        required: true, 
-        
+           
     },
     takeBody: {
-        type: String,
+        type: String
         
     },
-    upVote: {
+    upvote: {
         type: Number,
         default: 0
     },
-    downVote: {
+    downvote: {
         type: Number,
         default: 0
     },
     user: {
-      type: Take.Types.ObjectId,
-      ref: "User",
-      required: true
-  },
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+      }
 })
 module.exports = mongoose.model("Take", takeSchema)
 /**

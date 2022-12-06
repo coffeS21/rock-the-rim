@@ -1,6 +1,6 @@
 const express = require("express")
 const takeRouter = express.Router()
-const Take = require("../models/take")
+const Take = require("../models/take.js")
 
 //go to eps #9 for testing instructions
 //create templets and create:
@@ -9,18 +9,6 @@ const Take = require("../models/take")
 //get all takes
 takeRouter.get("/", (req, res, next)=>{
     Take.find((err, takes)=>{
-        if(err){
-            res.status(500)
-            return next(err)
-        }
-        return res.status(200).send(takes)
-    })
-})
-
-// get takes by id
-
-takeRouter.get("/user", (req, res, next) => {
-    Take.find({user: req.auth._id}, (err, takes) => {
         if(err){
             res.status(500)
             return next(err)
@@ -43,19 +31,17 @@ takeRouter.post("/", (req,res,next)=>{
 })
 
 //delete take
-takeRouter.delete("/:takeId", (req,res,next)=>{     /**the "user: req.user._id"
-                                                    is used so that a take will
-                                                    only be deleted by the user
-                                                    who created it  */
-    Take.findOneAndDelete({_id:req.params.takeId, user: req.user._id}, (err, deletedTake)=>{
+takeRouter.delete("/:takeId", (req, res, next)=>{    
+    Take.findOneAndDelete({_id: req.params.takeId, user: req.auth._id}, (err, deletedTake)=>{
         if(err){
             res.status(500)
             return next(err)
         }
-        return res.status(200).send(`the take titled ${deletedTake.title} has been removed from the data base `)
+        return res.status(200).send(`the take titled ${deletedTake.takeTitle} has been removed from the data base `)
     })
 })
 
+//update
 takeRouter.put("/:takeId", (req,res,next) => {
     Take.findOneAndUpdate({_id: req.params.takeId, user: req.auth._id}, 
         req.body,
@@ -67,6 +53,37 @@ takeRouter.put("/:takeId", (req,res,next) => {
             }
             return res.status(201).send(updatedTake)
         })
+})
+
+//upvote a take
+takeRouter.put("/upvote/:takeId", (req,res,next) => {
+    Take.findOneAndUpdate(
+        {_id: req.params.takeId},
+        {$inc: {upvote: 1}},
+        {new: true},
+        (err, addedVote) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(addedVote)
+        }
+    )
+})
+//downvote a take
+takeRouter.put("/downvote/:takeId", (req,res,next) => {
+    Take.findOneAndUpdate(
+        {_id: req.params.takeId},
+        {$inc: {downvote: 1}},
+        {new: true},
+        (err, downvote) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(downvote)
+        }
+    )
 })
 
 module.exports = takeRouter

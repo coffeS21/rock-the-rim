@@ -16,9 +16,9 @@ server.use(morgan("dev"))
 //routes
 server.use("/auth", require("../routes/authRouter"))
 server.use("/api", expressjwt({secret: process.env.SECRET,algorithms: ['HS256']})) //req.user -  this is the payload//this is how you know what user is making a take
-server.use("/api/takes", require("../routes/takeRouter"))
-server.use("/opinions", require("../routes/opinionRouter"))
-server.use("/user", require("../routes/userRouter"))
+server.use("/api/take", require("../routes/takeRouter"))
+server.use("/api/comment", require("../routes/commentRouter"))
+
 
 //error handlers
 server.use((err, req, res, next)=> {

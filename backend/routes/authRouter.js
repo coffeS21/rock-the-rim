@@ -25,6 +25,7 @@ authRouter.post("/signup", (req, res, next)=> {
         })
     })
 })
+
 //login route
 authRouter.post("/login", (req,res, next)=>{
     User.findOne({username: req.body.username}, (err, user) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Todo(props){
+export default function Take(props){
   const { title, _id } = props
   return (
     <div>

@@ -34,7 +34,7 @@ export default function Auth(){
 
     function toggleForm(){
         setAuthToggle(prev => !prev)
-        resetAuthErr()
+        restAuthErr()
       }
 
     return(
