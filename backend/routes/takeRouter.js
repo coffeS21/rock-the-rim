@@ -29,7 +29,16 @@ takeRouter.post("/", (req,res,next)=>{
         return res.status(201).send(savedTake)
     })
 })
-
+//get takes by user id
+takeRouter.get("/user", (req, res, next) => {
+    Take.find({ user: req.auth._id }, (err, takes) => {
+      if(err){
+        res.status(500)
+        return next(err)
+      }
+      return res.status(200).send(takes)
+    })
+  })
 //delete take
 takeRouter.delete("/:takeId", (req, res, next)=>{    
     Take.findOneAndDelete({_id: req.params.takeId, user: req.auth._id}, (err, deletedTake)=>{
@@ -37,7 +46,7 @@ takeRouter.delete("/:takeId", (req, res, next)=>{
             res.status(500)
             return next(err)
         }
-        return res.status(200).send(`the take titled ${deletedTake.takeTitle} has been removed from the data base `)
+        return res.status(200).send(`the take ${deletedTake.takeTitle} has been removed from the data base `)
     })
 })
 
@@ -70,6 +79,10 @@ takeRouter.put("/upvote/:takeId", (req,res,next) => {
         }
     )
 })
+/**
+ * User's should only be able to upvote/downvote once per issue.
+ * 
+ */
 //downvote a take
 takeRouter.put("/downvote/:takeId", (req,res,next) => {
     Take.findOneAndUpdate(

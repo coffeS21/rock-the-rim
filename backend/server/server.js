@@ -18,7 +18,7 @@ server.use("/auth", require("../routes/authRouter"))
 server.use("/api", expressjwt({secret: process.env.SECRET,algorithms: ['HS256']})) //req.user -  this is the payload//this is how you know what user is making a take
 server.use("/api/take", require("../routes/takeRouter"))
 server.use("/api/comment", require("../routes/commentRouter"))
-
+server.use("/api/user", require("../routes/userRouter"))
 
 //error handlers
 server.use((err, req, res, next)=> {

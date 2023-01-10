@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const takeSchema = new Schema({
 
     takeTitle: {
-        type: String,
+        type: String
            
     },
     takeBody: {

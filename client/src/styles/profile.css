@@ -1,0 +1,39 @@
+*{
+    margin: 0%;
+    padding:0%;
+    box-sizing:border-box;
+    font-family: 'Aldrich', sans-serif; 
+  }
+
+#profilePageContainer{
+    height: 100vh;
+    width: 100%;
+    background-color: #0C0C0C;
+}
+.pageHeader{
+    background-color: #ffffff;
+    position: relative;
+    display: inline-block;
+}
+#profileInfoContainer{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #0C0C0C;
+    color: #ffffff;
+    padding-bottom: 200px;
+}
+#profileInfoContainer h3{
+    padding-bottom: 20px;
+}
+#profileButtonContainer{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+    padding-top: 20px;
+}
+button{
+    margin-bottom: 30px;
+}
